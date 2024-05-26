@@ -17,11 +17,22 @@ dest_dir_video = ""
 dest_dir_word = ""
 dest_dir_excel = ""
 
+#folder names for each type of media/downloads
+
+pdf_folder = "PDF"
+audio_folder = "Audios"
+image_folder = "Images"
+video_folder = "Videos"
+excel_folder = "Excels"
+word_folder = "Words"
+
 #following are the lists of formats for each file type I often download and store for furture usage
 
-image_formats = []
-audio_formats = []
-video_formats = []
+image_formats = [".jpg", ".jpeg", ".jpe", ".jif", ".jfif", ".jfi", ".png", ".gif", ".webp", ".tiff", ".tif", ".psd", ".raw", ".arw", ".cr2", ".nrw", ".k25", ".bmp", ".dib", ".heif", ".heic", ".ind", ".indd", ".indt", ".jp2", ".j2k", ".jpf", ".jpf", ".jpx", ".jpm", ".mj2", ".svg", ".svgz", ".ai", ".eps", ".ico"]
+audio_formats = [".mp3", ".wav", ".aac", ".flac", ".ogg", ".wma", ".m4a", ".aiff", ".alac", ".pcm"]
+video_formats = [".mp4", ".avi", ".mov", ".wmv", ".flv", ".mkv", ".webm", ".m4v", ".3gp", ".mpg"]
+excel_formats = [".xlsx", ".xlsm", ".xlsb", ".xltx", ".xltm", ".xlt", ".xls", ".xml", ".xla", ".xlw", ".xlr"]
+
 
 class myEventHandler(FileSystemEventHandler):
     def on_modified(self, event):
@@ -35,18 +46,21 @@ class myEventHandler(FileSystemEventHandler):
                     check_word(entry, name)
                     check_excel(entry, name)
                     check_pdf(entry, name)
-    def check_audio(self, cur_file):
+    def check_audio(self, name):
         pass
-    def check_video(self, cur_file):
+    def check_video(self, name):
         pass
-    def check_image(self, cur_file):
+    def check_image(self, name):
         pass
-    def check_word(self, cur_file):
-        pass
-    def check_excel(self, cur_file):
-        pass
-    def check_pdf(self, cur_file):
-        pass
+    def check_word(self, name):
+        if entry.endswith('.docx') or entry.endswith('.doc'):
+        #move to word folder
+    def check_excel(self, name):
+        if entry.endswith(excel_formats):
+            pass
+    def check_pdf(self, name):
+        if entry.endswith('.pdf'):
+            pass
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO,
@@ -59,7 +73,7 @@ if __name__ == "__main__":
     observer.start()
     try:
         while True:
-            time.sleep(1)
+            time.sleep(1) #we are detecting the change in source folder every second
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
