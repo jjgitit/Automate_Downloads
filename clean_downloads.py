@@ -1,4 +1,4 @@
-import sys, time
+import sys, time, os
 from os import scandir, rename
 from os.path import exists, join, splitext
 from time import sleep
@@ -13,14 +13,8 @@ from watchdog.events import FileSystemEventHandler
 #the following are set source file where I detect any changes and destinations of different file types organized by folder
 # Feel free to modify the source file you want to monitor
 src_dir = "/Users/jaeyeonlee/Downloads/"
-dest_dir_audio = ""
-dest_dir_image = ""
-dest_dir_pdf = ""
-dest_dir_video = ""
-dest_dir_word = ""
-dest_dir_excel = ""
 
-#folder names for each type of media/downloads
+#folder names/path for each type of media/downloads
 
 pdf_folder = "/Users/jaeyeonlee/Downloads/PDFs"
 audio_folder = "/Users/jaeyeonlee/Downloads/Audios"
@@ -39,10 +33,20 @@ word_formats = [".docx", ".doc"]
 
 def move_file(dest, entry, name):
     #check if file already exists in the folder
-    if f"{dest}/name" in 
+    if exists(f"{dest}/{name}"):
+        new_name = unique_name(name, dest)
+        move(entry, new_name)
+        
+        
 
-def unique_name():
-    pass
+def unique_name(name, dest):
+    count = 1
+    file_name, extension = splitext(name)
+    while exists(f"{dest}/{name}"):
+        name = f"{dest}/{file_name}{str(count)}{extension}"
+        count += 1
+    return name
+    
 
 
 
