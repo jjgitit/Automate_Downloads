@@ -31,11 +31,6 @@ video_formats = [".mp4", ".avi", ".mov", ".wmv", ".flv", ".mkv", ".webm", ".m4v"
 excel_formats = [".xlsx", ".xlsm", ".xlsb", ".xltx", ".xltm", ".xlt", ".xls", ".xml", ".xla", ".xlw", ".xlr"]
 word_formats = [".docx", ".doc"]
 
-def move_file(dest, entry, name):
-    #check if file already exists in the folder
-    if exists(f"{dest}/{name}"):
-        new_name = unique_name(name, dest)
-        move(entry, new_name)
         
         
 
@@ -48,6 +43,14 @@ def unique_name(name, dest):
     return name
     
 
+def move_file(dest, entry, name):
+    #check if file already exists in the folder
+    if exists(f"{dest}/{name}"):
+        print('found existing file!!!')
+        new_name = unique_name(name, dest)
+        move(entry, new_name)
+    else:
+        move(entry, f"{dest}/{name}")
 
 
 class myEventHandler(FileSystemEventHandler):
@@ -65,38 +68,43 @@ class myEventHandler(FileSystemEventHandler):
     def check_audio(self, entry, name):
         if audio_folder not in os.listdir(src_dir):
             os.makedirs(audio_folder, exist_ok=True)
-        if name.endswith(audio_formats) or name.endswith(audio_formats.upper()):
-            move_file(dest, entry, name)
+        for format in audio_formats:
+            if name.endswith(format) or name.endswith(format.upper()):
+                move_file(audio_folder, entry, name)
             
     def check_video(self, entry, name):
         if video_folder not in os.listdir(src_dir):
             os.makedirs(video_folder, exist_ok=True)
-        if name.endswith(video_formats) or name.endswith(video_formats.upper()):
-            move_file(dest, entry, name)
+        for format in video_formats:
+            if name.endswith(format) or name.endswith(format.upper()):
+                move_file(video_folder, entry, name)
             
     def check_image(self, entry, name):
         if image_folder not in os.listdir(src_dir):
             os.makedirs(image_folder, exist_ok=True)
-        if name.endswith(image_formats) or name.endswith(image_formats.upper()):
-            move_file(dest, entry, name)
+        for format in image_formats:
+            if name.endswith(format) or name.endswith(format.upper()):
+                move_file(image_folder, entry, name)
             
     def check_word(self, entry, name):
         if word_folder not in os.listdir(src_dir):
-            os.makedir(word_folder, exist_ok=True)
-        if name.endswith(word_formats) or name.endswith(word_formats.upper()):
-            move_file(dest, entry, name)
+            os.makedirs(word_folder, exist_ok=True)
+        for format in word_formats:
+            if name.endswith(format) or name.endswith(format.upper()):
+                move_file(word_folder, entry, name)
             
     def check_excel(self, entry, name):
         if excel_folder not in os.listdir(src_dir):
             os.makedirs(excel_folder, exist_ok=True)
-        if name.endswith(excel_formats) or name.endswith(excel_formats.upper()):
-            move_file(dest, entry, name)
+            for format in excel_formats:
+                if name.endswith(format) or name.endswith(format.upper()):
+                    move_file(excel_folder, entry, name)
             
     def check_pdf(self, entry, name):
         if pdf_folder not in os.listdir(src_dir):
             os.makedirs(pdf_folder, exist_ok=True)
         if name.endswith('.pdf'):
-            move_file(dest, entry, name)
+            move_file(pdf_folder, entry, name)
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO,
