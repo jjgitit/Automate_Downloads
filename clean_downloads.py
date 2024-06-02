@@ -45,6 +45,8 @@ def unique_name(name, dest):
 
 def move_file(dest, entry, name):
     #check if file already exists in the folder
+    #throwing errors with paths. Need to find a way to resolve this bug
+    #might have to reimplement the move_file function again
     if exists(f"{dest}/{name}"):
         print('found existing file!!!')
         new_name = unique_name(name, dest)
